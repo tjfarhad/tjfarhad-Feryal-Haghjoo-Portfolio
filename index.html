@@ -201,6 +201,44 @@
   button.submit:hover{background:var(--green);}
 
   @media(max-width:900px){.contact-wrap{grid-template-columns:1fr;gap:40px;}}
+  .contact-wrap.contact-solo{grid-template-columns:1fr;max-width:640px;}
+
+  /* lightbox */
+  .lightbox{
+    position:fixed;inset:0;background:rgba(15,17,13,.96);
+    display:none;align-items:center;justify-content:center;
+    z-index:1000;padding:60px;
+  }
+  .lightbox.open{display:flex;animation:fade .3s ease;}
+  .lightbox img{
+    max-width:100%;max-height:82vh;object-fit:contain;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+  }
+  .lightbox-cap{
+    position:absolute;bottom:34px;left:0;right:0;text-align:center;
+    font-family:'Space Mono',monospace;font-size:12px;letter-spacing:1.5px;
+    text-transform:uppercase;color:#c9c6b8;
+  }
+  .lightbox-close{
+    position:absolute;top:28px;right:38px;color:#eae7dc;font-size:32px;
+    line-height:1;cursor:pointer;background:none;border:none;font-family:sans-serif;
+    transition:opacity .2s ease;
+  }
+  .lightbox-close:hover{opacity:.6;}
+  .lightbox-nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:none;border:none;color:#eae7dc;font-size:40px;
+    cursor:pointer;padding:10px 18px;transition:opacity .2s ease;
+    font-family:'Work Sans',sans-serif;
+  }
+  .lightbox-nav:hover{opacity:.6;}
+  .lightbox-prev{left:14px;}
+  .lightbox-next{right:14px;}
+  @media(max-width:700px){
+    .lightbox{padding:20px;}
+    .lightbox-close{top:16px;right:18px;font-size:26px;}
+    .lightbox-nav{font-size:30px;padding:6px 10px;}
+  }
 
   /* footer */
   footer{
@@ -231,6 +269,11 @@
     padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     font-size:12px;color:#a9a693;font-family:'Space Mono',monospace;
   }
+  .footer-bottom a{
+    color:#5b9bd5;text-decoration:none;border-bottom:1px solid rgba(91,155,213,.4);
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .footer-bottom a:hover{color:#82b6e6;border-color:#82b6e6;}
   @media(max-width:700px){
     footer{padding:40px 20px 24px;}
     .footer-top{flex-direction:column;}
@@ -332,7 +375,7 @@
       <h1 class="title">Contact</h1>
     </div>
 
-    <div class="contact-wrap">
+    <div class="contact-wrap contact-solo">
       <div class="contact-info">
         <p class="lead">Have a project in mind, or just want to talk about light and Gilan's coastline? I'd love to hear from you.</p>
 
@@ -345,30 +388,26 @@
           <span class="v"><a href="tel:+14152082116">(415) 208-2116</a></span>
         </div>
         <div class="info-line">
+          <span class="k">Email</span>
+          <span class="v"><a href="mailto:feryal.haghjoo@example.com">feryal.haghjoo@example.com</a></span>
+        </div>
+        <div class="info-line">
           <span class="k">Social</span>
           <span class="v"><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a> &nbsp;·&nbsp; <a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></span>
         </div>
       </div>
-
-      <form onsubmit="event.preventDefault(); this.querySelector('.submit').textContent='Message Sent'; ">
-        <div class="field">
-          <label for="name">Name</label>
-          <input id="name" type="text" placeholder="Your name" required>
-        </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="you@example.com" required>
-        </div>
-        <div class="field">
-          <label for="message">Message</label>
-          <textarea id="message" placeholder="Tell me about your project…" required></textarea>
-        </div>
-        <button class="submit" type="submit">Send Message</button>
-      </form>
     </div>
   </section>
 
 </main>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="lbPrev">&#8249;</button>
+  <img id="lbImg" src="" alt="">
+  <button class="lightbox-nav lightbox-next" id="lbNext">&#8250;</button>
+  <div class="lightbox-cap" id="lbCap"></div>
+</div>
 
 <footer>
   <div class="footer-top">
@@ -388,7 +427,7 @@
   </div>
   <div class="footer-bottom">
     <span>© 2026 Feryal Haghjoo. All rights reserved.</span>
-    <span>Developed and Designed by Farhad Tajbakhsh</span>
+    <span>Developed and Designed by <a href="https://instagram.com/farhadtajbakhsh" target="_blank" rel="noopener">Farhad Tajbakhsh</a></span>
   </div>
 </footer>
 
@@ -403,6 +442,40 @@
       document.getElementById(link.dataset.target).classList.add('active');
       window.scrollTo({top:0, behavior:'smooth'});
     });
+  });
+
+  // lightbox
+  const cells = Array.from(document.querySelectorAll('.cell'));
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCap');
+  let current = 0;
+
+  function openLightbox(index){
+    current = index;
+    const cell = cells[current];
+    lbImg.src = cell.querySelector('img').src;
+    lbCap.textContent = cell.dataset.cap || '';
+    lightbox.classList.add('open');
+  }
+  function closeLightbox(){ lightbox.classList.remove('open'); }
+  function showNext(step){
+    current = (current + step + cells.length) % cells.length;
+    openLightbox(current);
+  }
+
+  cells.forEach((cell, i)=>{
+    cell.addEventListener('click', ()=> openLightbox(i));
+  });
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbNext').addEventListener('click', ()=> showNext(1));
+  document.getElementById('lbPrev').addEventListener('click', ()=> showNext(-1));
+  lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e)=>{
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLightbox();
+    if(e.key === 'ArrowRight') showNext(1);
+    if(e.key === 'ArrowLeft') showNext(-1);
   });
 </script>
 
