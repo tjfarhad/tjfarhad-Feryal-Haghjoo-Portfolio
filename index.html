@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feryal Haghjoo — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf9f6;
+    --ink:#17140f;
+    --green:#33523f;
+    --green-deep:#20362a;
+    --moss:#8aa68a;
+    --line:#e2ded3;
+    --paper:#f2f0e8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+  }
+  .grain{
+    position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* header */
+  header{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:28px 48px;
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;background:rgba(250,249,246,.92);
+    backdrop-filter:blur(6px);
+    z-index:100;
+  }
+  .brand{
+    font-family:'Archivo Black',sans-serif;
+    font-size:20px;letter-spacing:.5px;
+  }
+  .brand span{color:var(--green);}
+  nav{display:flex;gap:36px;}
+  nav a{
+    text-decoration:none;color:var(--ink);
+    font-size:13px;letter-spacing:1.5px;font-weight:600;
+    text-transform:uppercase;
+    padding-bottom:6px;border-bottom:2px solid transparent;
+    cursor:pointer;transition:border-color .25s ease, color .25s ease;
+  }
+  nav a:hover{color:var(--green);}
+  nav a.active{border-color:var(--green);color:var(--green);}
+
+  main{max-width:1500px;margin:0 auto;padding:0 48px;}
+  .view{display:none;animation:fade .5s ease;}
+  .view.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+  /* portfolio */
+  .page-head{padding:56px 0 32px;}
+  .eyebrow{
+    font-family:'Space Mono',monospace;font-size:12px;color:var(--green);
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--green);}
+  h1.title{
+    font-family:'Archivo Black',sans-serif;
+    font-size:clamp(40px,6vw,84px);
+    text-transform:uppercase;line-height:.92;letter-spacing:-1px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:170px;
+    gap:6px;
+    padding-bottom:80px;
+  }
+  .cell{
+    position:relative;overflow:hidden;background:var(--paper);
+    cursor:pointer;
+  }
+  .cell img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    transition:transform .6s cubic-bezier(.2,.7,.3,1), filter .6s ease;
+    filter:saturate(.96);
+  }
+  .cell:hover img{transform:scale(1.06);}
+  .cell::after{
+    content:attr(data-cap);
+    position:absolute;left:0;right:0;bottom:0;
+    padding:14px 16px 12px;
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;
+    color:#fff;text-transform:uppercase;
+    background:linear-gradient(to top, rgba(15,20,15,.7), transparent);
+    opacity:0;transform:translateY(8px);
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .cell:hover::after{opacity:1;transform:translateY(0);}
+
+  .c1{grid-column:span 1;grid-row:span 4;}
+  .c2{grid-column:span 1;grid-row:span 4;}
+  .c3{grid-column:span 2;grid-row:span 3;}
+  .c4{grid-column:span 1;grid-row:span 2;}
+  .c5{grid-column:span 1;grid-row:span 2;}
+  .c6{grid-column:span 2;grid-row:span 3;}
+  .c7{grid-column:span 1;grid-row:span 3;}
+  .c8{grid-column:span 1;grid-row:span 3;}
+
+  @media(max-width:900px){
+    .grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px;}
+    .c1,.c2,.c3,.c4,.c5,.c6,.c7,.c8{grid-column:span 1;}
+    .c3,.c6{grid-column:span 2;}
+    header{padding:20px;}
+    main{padding:0 20px;}
+  }
+
+  /* about */
+  .about-wrap{
+    padding:60px 0 100px;
+    display:grid;grid-template-columns:1fr 1.1fr;gap:70px;align-items:start;
+  }
+  .about-photo{
+    position:relative;
+  }
+  .about-photo img{width:100%;height:600px;object-fit:cover;display:block;}
+  .about-photo .tag{
+    position:absolute;bottom:-1px;left:-1px;background:var(--green-deep);color:#f2f0e8;
+    padding:10px 16px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  .about-body p{
+    font-size:18px;line-height:1.85;color:#3a362e;margin-bottom:22px;
+    max-width:620px;
+  }
+  .about-body p:first-of-type{
+    font-size:24px;font-weight:500;color:var(--ink);line-height:1.5;
+  }
+  .facts{
+    margin-top:44px;display:grid;grid-template-columns:repeat(2,1fr);
+    gap:24px 40px;border-top:1px solid var(--line);padding-top:30px;
+  }
+  .facts div span{
+    display:block;font-family:'Space Mono',monospace;font-size:11px;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:6px;
+  }
+  .facts div p{font-size:15px;color:#3a362e;}
+
+  @media(max-width:900px){
+    .about-wrap{grid-template-columns:1fr;gap:36px;}
+    .about-photo img{height:380px;}
+  }
+
+  /* contact */
+  .contact-wrap{
+    padding:60px 0 110px;
+    display:grid;grid-template-columns:1fr 1fr;gap:70px;
+  }
+  .contact-info p.lead{
+    font-size:22px;line-height:1.6;max-width:480px;margin-bottom:40px;color:#3a362e;
+  }
+  .info-line{
+    display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--line);
+    align-items:baseline;
+  }
+  .info-line:last-child{border-bottom:1px solid var(--line);}
+  .info-line span.k{
+    font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--green);width:110px;flex-shrink:0;
+  }
+  .info-line span.v{font-size:16px;}
+  .info-line a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);}
+  .info-line a:hover{border-color:var(--green);color:var(--green);}
+
+  form{display:flex;flex-direction:column;gap:22px;}
+  .field label{
+    display:block;font-family:'Space Mono',monospace;font-size:11px;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:8px;
+  }
+  .field input, .field textarea{
+    width:100%;border:none;border-bottom:1px solid var(--line);
+    background:transparent;padding:10px 2px;font-family:'Work Sans',sans-serif;
+    font-size:16px;color:var(--ink);outline:none;
+    transition:border-color .25s ease;
+  }
+  .field input:focus, .field textarea:focus{border-color:var(--green);}
+  .field textarea{resize:vertical;min-height:90px;}
+  button.submit{
+    align-self:flex-start;margin-top:8px;
+    background:var(--green-deep);color:#f2f0e8;border:none;
+    padding:16px 34px;font-family:'Space Mono',monospace;font-size:12px;
+    letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;
+    transition:background .25s ease;
+  }
+  button.submit:hover{background:var(--green);}
+
+  @media(max-width:900px){.contact-wrap{grid-template-columns:1fr;gap:40px;}}
+
+  /* footer */
+  footer{
+    background:var(--green-deep);color:#eae7dc;
+    padding:56px 48px 30px;
+  }
+  .footer-top{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    flex-wrap:wrap;gap:30px;padding-bottom:36px;border-bottom:1px solid rgba(234,231,220,.18);
+  }
+  .footer-name{
+    font-family:'Archivo Black',sans-serif;font-size:26px;letter-spacing:.5px;
+    text-transform:uppercase;
+  }
+  .footer-meta{
+    display:flex;flex-direction:column;gap:6px;
+    font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.5px;
+    color:#c9c6b8;
+  }
+  .footer-social{display:flex;gap:26px;}
+  .footer-social a{
+    color:#eae7dc;text-decoration:none;font-size:13px;letter-spacing:1px;
+    text-transform:uppercase;font-family:'Space Mono',monospace;
+    border-bottom:1px solid transparent;
+  }
+  .footer-social a:hover{border-color:#eae7dc;}
+  .footer-bottom{
+    padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    font-size:12px;color:#a9a693;font-family:'Space Mono',monospace;
+  }
+  @media(max-width:700px){
+    footer{padding:40px 20px 24px;}
+    .footer-top{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header>
+  <div class="brand">FERYAL <span>HAGHJOO</span></div>
+  <nav>
+    <a data-target="portfolio" class="active">Portfolio</a>
+    <a data-target="about">About Me</a>
+    <a data-target="contact">Contact</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio" class="view active">
+    <div class="page-head">
+      <div class="eyebrow">Rasht, Gilan — Iran</div>
+      <h1 class="title">Portfolio</h1>
+    </div>
+
+    <div class="grid">
+      <div class="cell c1" data-cap="Caspian Coast, Morning">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80" alt="Sea coast">
+      </div>
+      <div class="cell c2" data-cap="Forest Path, Gilan">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&q=80" alt="Forest mountain">
+      </div>
+      <div class="cell c3" data-cap="Rice Terraces, Rasht">
+        <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1200&q=80" alt="Green valley">
+      </div>
+      <div class="cell c4" data-cap="Tea Fields">
+        <img src="https://images.unsplash.com/photo-1495197359483-d092478c170a?w=800&q=80" alt="Plant against sky">
+      </div>
+      <div class="cell c5" data-cap="Mist Over Water">
+        <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&q=80" alt="Snow mountains">
+      </div>
+      <div class="cell c6" data-cap="Old Bazaar Street">
+        <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&q=80" alt="Mountain range">
+      </div>
+      <div class="cell c7" data-cap="Sunset, North Iran">
+        <img src="https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=800&q=80" alt="Sunset clouds">
+      </div>
+      <div class="cell c8" data-cap="Stone Archway">
+        <img src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80" alt="Desert arch">
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="view">
+    <div class="page-head">
+      <div class="eyebrow">The Photographer</div>
+      <h1 class="title">About Me</h1>
+    </div>
+
+    <div class="about-wrap">
+      <div class="about-photo">
+        <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=900&q=80" alt="Portrait landscape">
+        <div class="tag">Feryal Haghjoo — Rasht</div>
+      </div>
+      <div class="about-body">
+        <p>I grew up between the rice fields and the fog of Gilan, where the light never sits still for long — and that is exactly what I chase with a camera.</p>
+        <p>My work moves between quiet documentary portraits and wide, atmospheric landscapes. I'm drawn to the in-between moments: the mist before it lifts, the coastline before the tourists arrive, the pause between two frames.</p>
+        <p>Over the past several years I've photographed across northern Iran and beyond, building a body of work rooted in place, patience, and natural light. Every series starts the same way — with walking, watching, and waiting for something true.</p>
+
+        <div class="facts">
+          <div>
+            <span>Based In</span>
+            <p>Rasht, Gilan — Iran</p>
+          </div>
+          <div>
+            <span>Focus</span>
+            <p>Landscape &amp; Documentary Photography</p>
+          </div>
+          <div>
+            <span>Available For</span>
+            <p>Editorial, Travel &amp; Portrait Commissions</p>
+          </div>
+          <div>
+            <span>Format</span>
+            <p>Digital &amp; 35mm Film</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="view">
+    <div class="page-head">
+      <div class="eyebrow">Get In Touch</div>
+      <h1 class="title">Contact</h1>
+    </div>
+
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <p class="lead">Have a project in mind, or just want to talk about light and Gilan's coastline? I'd love to hear from you.</p>
+
+        <div class="info-line">
+          <span class="k">Location</span>
+          <span class="v">Rasht, Gilan — Iran</span>
+        </div>
+        <div class="info-line">
+          <span class="k">Phone</span>
+          <span class="v"><a href="tel:+14152082116">(415) 208-2116</a></span>
+        </div>
+        <div class="info-line">
+          <span class="k">Social</span>
+          <span class="v"><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a> &nbsp;·&nbsp; <a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a> &nbsp;·&nbsp; <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a></span>
+        </div>
+      </div>
+
+      <form onsubmit="event.preventDefault(); this.querySelector('.submit').textContent='Message Sent'; ">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" type="text" placeholder="Your name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" placeholder="Tell me about your project…" required></textarea>
+        </div>
+        <button class="submit" type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-name">Feryal Haghjoo</div>
+      <div class="footer-meta">
+        <span>Iran — Rasht</span>
+        <span>(415) 208-2116</span>
+      </div>
+    </div>
+    <div class="footer-social">
+      <a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Feryal Haghjoo. All rights reserved.</span>
+    <span>Developed and Designed by Farhad Tajbakhsh</span>
+  </div>
+</footer>
+
+<script>
+  const links = document.querySelectorAll('nav a');
+  const views = document.querySelectorAll('.view');
+  links.forEach(link=>{
+    link.addEventListener('click', ()=>{
+      links.forEach(l=>l.classList.remove('active'));
+      views.forEach(v=>v.classList.remove('active'));
+      link.classList.add('active');
+      document.getElementById(link.dataset.target).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+</script>
+
+</body>
+</html>
